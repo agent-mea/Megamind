@@ -1,0 +1,100 @@
+import random #import random module to randomize chatbot answers
+import re
+import streamlit as stl #import streamlit
+
+responses = {
+    
+    "hey":[
+         "Hello! How are you?", 
+         "Hi. How can I assist you?", 
+         "Hey there! How can I help you today?"
+    ],
+    
+    "hello":[
+         "Hello! How are you?", 
+         "Hi. How can I assist you?", 
+         "Hey there! How can I help you today?"
+    ],
+    
+    "hi":[
+         "Hello! How are you?", 
+         "Hi. How can I assist you?", 
+         "Hey there! How can I help you today?"
+    ],
+    
+    "wassup":[
+         "Hello! How are you?", 
+         "Hi. How can I assist you?", 
+         "Hey there! How can I help you today?"
+    ],
+    
+    "goodbye":[
+         "Bye! Have a good day.", 
+         "See ya.", 
+         "Au revoir! See you later."
+    ],
+    
+    "bye":[
+         "Bye! Have a good day.", 
+         "See ya.", 
+         "Au revoir! See you later."
+    ],
+    
+    "see you later":[
+         "Bye! Have a good day.", 
+         "See ya.", 
+         "Au revoir! See you later."
+    ],
+    
+    "thank you":[
+         "You're welcome! Can I help you with anything else.", 
+         "No problem. Is there anything else?"
+    ],
+    
+    "when does your store open?": [
+         "Our store is open from 8 AM until 6 PM? Would you like to make an order?"
+    ],
+    
+    "i would like to make an order.": [
+         "Sure no problem! What crochet item would you like to order?"
+    ],
+    
+    "beanie": [
+         "Great choice! That'll be $50. Is that all you would need?"
+    ],
+    
+    "bag": [
+         "Great choice! That'll be $30. Would you like to add anything else to your cart?"
+    ],
+
+    "that is all": [
+         "Alright then."
+    ],
+    "my name is (\w+)": [
+         "Nice to meet you, {}! How may I be of assisstance today?"
+    ]
+}
+
+def chatbot_responses(user_input):
+     patterns = [
+          (r"hello", "Hi, I'm Risa! How are you?")
+
+     ]
+for pattern, responses in patterns:
+     match = re.search(pattern, user_input, re.IGNORECASE)
+     if match:
+          if callable(responses):
+               return responses(match)
+          else:
+               return responses.format(*match.groups())
+
+while True: 
+     user_input = input("You: ") #prompt user to enter greeting
+     if user_input.lower() in responses: #check if user response is in the dictionary
+        risa_reply = random.choice(responses[user_input.lower()])
+        print("Risa: ", risa_reply)
+     elif user_input.lower() == "stop":
+        print("Risa: ", "Ok.")
+        break
+     else :
+          print("Risa: ", "I'm sorry, I didn't understand what you said. Can you rephrase?")
